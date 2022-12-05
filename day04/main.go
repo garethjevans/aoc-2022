@@ -2,6 +2,7 @@ package day04
 
 import (
 	"github.com/garethjevans/aoc-2022/pkg/file"
+	"github.com/garethjevans/aoc-2022/pkg/iterator"
 	"github.com/samber/lo"
 	"strconv"
 	"strings"
@@ -20,15 +21,8 @@ func (i IdSet) Overlap() bool {
 }
 
 func (i IdSet) PartialOverlap() bool {
-	var set0, set1 []int
-
-	for x := i.Start0; x <= i.End0; x++ {
-		set0 = append(set0, x)
-	}
-
-	for x := i.Start1; x <= i.End1; x++ {
-		set1 = append(set1, x)
-	}
+	set0 := iterator.Fill(i.Start0, i.End0)
+	set1 := iterator.Fill(i.Start1, i.End1)
 
 	matches := lo.Intersect[int](set0, set1)
 	return len(matches) > 0
