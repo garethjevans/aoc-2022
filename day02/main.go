@@ -1,8 +1,7 @@
 package day02
 
 import (
-	"os"
-	"strings"
+	"github.com/garethjevans/aoc-2022/pkg/file"
 )
 
 type Round struct {
@@ -10,12 +9,7 @@ type Round struct {
 }
 
 func ParseInput(filename string) ([]Round, error) {
-	b, err := os.ReadFile(filename)
-	if err != nil {
-		return nil, err
-	}
-
-	lines := strings.Split(string(b), "\n")
+	lines, err := file.AsLines(filename)
 	if err != nil {
 		return nil, err
 	}

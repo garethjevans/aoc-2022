@@ -1,10 +1,9 @@
 package day01
 
 import (
+	"github.com/garethjevans/aoc-2022/pkg/file"
 	"github.com/samber/lo"
-	"os"
 	"strconv"
-	"strings"
 )
 
 type Elf struct {
@@ -22,12 +21,7 @@ func (e Elf) Sum() int {
 }
 
 func GetElfs(filename string) ([]Elf, error) {
-	b, err := os.ReadFile(filename)
-	if err != nil {
-		return nil, err
-	}
-
-	lines := strings.Split(string(b), "\n")
+	lines, err := file.AsLines(filename)
 	if err != nil {
 		return nil, err
 	}

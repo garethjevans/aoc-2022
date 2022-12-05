@@ -1,8 +1,8 @@
 package day03
 
 import (
+	"github.com/garethjevans/aoc-2022/pkg/file"
 	"github.com/samber/lo"
-	"os"
 	"strings"
 )
 
@@ -25,12 +25,7 @@ func (r Rucksack) InBoth() []string {
 }
 
 func ParseInput(filename string) ([]Rucksack, error) {
-	b, err := os.ReadFile(filename)
-	if err != nil {
-		return nil, err
-	}
-
-	lines := strings.Split(string(b), "\n")
+	lines, err := file.AsLines(filename)
 	if err != nil {
 		return nil, err
 	}
