@@ -9,22 +9,16 @@ import (
 )
 
 type IdSet struct {
-	Start0 int
-	End0   int
-	Start1 int
-	End1   int
+	Set0 []int
+	Set1 []int
 }
 
 func (i IdSet) Overlap() bool {
-	return (i.Start1 >= i.Start0 && i.End1 <= i.End0) ||
-		(i.Start0 >= i.Start1 && i.End0 <= i.End1)
+	return lo.Every[int](i.Set0, i.Set1) || lo.Every[int](i.Set1, i.Set0)
 }
 
 func (i IdSet) PartialOverlap() bool {
-	set0 := iterator.Fill(i.Start0, i.End0)
-	set1 := iterator.Fill(i.Start1, i.End1)
-
-	matches := lo.Intersect[int](set0, set1)
+	matches := lo.Intersect[int](i.Set0, i.Set1)
 	return len(matches) > 0
 }
 
@@ -39,7 +33,10 @@ func ParseFile(filename string) ([]IdSet, error) {
 		s0 := strings.Split(parts[0], "-")
 		s1 := strings.Split(parts[1], "-")
 
-		return IdSet{Start0: Must(s0[0]), End0: Must(s0[1]), Start1: Must(s1[0]), End1: Must(s1[1])}
+		set0 := iterator.Fill(Must(s0[0]), Must(s0[1]))
+		set1 := iterator.Fill(Must(s1[0]), Must(s1[1]))
+
+		return IdSet{Set0: set0, Set1: set1}
 	}), nil
 }
 
